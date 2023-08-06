@@ -1,0 +1,90 @@
+*     DESCRIPTIVE NAME - Device Allocation Communication Area
+*     FUNCTION:
+*     Provides information required by allocation as well as the
+*     entry point addresses of allocation routines.  The DACA
+*     control block is created at allocation initialization time
+*     by IEFAB4IC which initializes the JESDACA field in the JESCT
+*     to the address of this control block.
+*
+*
+*     Access:        IEFJESCT
+*                    IEFZB4IC
+*                    L        R10,JESDACA
+*                    USING    DACA,R10
+*
+DACA     DSECT
+DACAID   DC    CL4'DACA'            EBCDIC control block ID
+DACAVER  DC    XL1'04'              Control block version number
+*                                   If moved or deleted, update
+*                                   the GETDSAB macro
+*   DACALWAA DACAMSGT  are extra fields introduced by Types 3 and 4.
+DACAEXIT DS    X                    Allocation user exit flags
+DACAVLEQ EQU   X'80'                Invalid action msg flag for
+*                                   the Volume ENQ user exit
+DACAVLMT EQU   X'40'                Invalid action msg flag for
+*                                   the Volume Mount user exit
+DACAOFFL EQU   X'20'                Invalid action msg flag for
+*                                   the Offline Device user exit
+DACASPEC EQU   X'10'                Invalid action msg flag for
+*                                   the Specific Wait user exit
+DACAXES  DS    X                    flags to indicate state of the
+*                                   IEFAUTOS XES structure
+DACACONN EQU   X'80'                Connected to IEFAUTOS
+DACAFCON EQU   X'40'                Connection to IEFAUTOS failed
+*        DS    X                    RESERVED
+*                                   Alignment to next fullword
+DACAUCBP DS    F                    Address of dummy UCB
+DACVTUSE DS    F                    Address of default use
+*                                   attributes table
+DACAB4C0 DS    A                    Entry point of IEFAB4C0
+DACAB4C1 DS    A                    Entry point of IEFAB4C1
+DACAB4C2 DS    A                    Entry point of IEFAB4C2
+DACAB4C3 DS    A                    Entry point of IEFAB4C3
+DACAB4C4 DS    A                    Entry point of IEFAB4C4
+DACAB4C8 DS    A                    Entry point of IEFAB4C8
+DACAB4EX DS    A                    Entry point of IEFAB4EX
+DACDB475 DS    A                    Entry point of IEFDB475
+DACDB476 DS    A                    Entry point of IEFDB476
+DACDDMON DS    A                    Entry point of IEFAB4C9
+DACAB445 DS    F                    Pointer to the allocation
+*                                   default table which is mapped
+*                                   by IEFZB445
+DACPHOLD DS    XL4                  Serialize Pending Process
+DACAPEND DS    0D                   Pending Device Chain
+*                                   serialization block
+DACAHEAD DS    F                    Pending Device Chain Head
+DACATAIL DS    F                    Pending Device Chain Tail
+DACPPOOL DS    CL4                  Cell Pool ID for Pending
+*                                   Device Blocks cell pool
+DACARES1 DS    F                    RESERVED - available for use
+*                                   in HBB4430 and above.
+DACAB4CC DS    A                    Entry point of IEFAB4CC If
+*                                   moved or deleted, update the
+*                                   GETDSAB macro
+DACTIOCT DS    F                    Maximum number of total TIOTs,
+*                                   counting both normal TIOTs and
+*                                   extended TIOTs (XTIOTs)
+DACAB4CE DS    A                    Entry point of IEFAB4CE
+DACARES2 DS    A                    RESERVED - do not use
+DACAEDTL DS    A                    Pointer to the EDT latch
+DACAEDTS DS    A                    Ptr to EDT latch services
+DACAB4MG DS    A                    Entry point of IEFAB4MG
+DACAB4F3 DS    A                    Entry point of IEFAB4F3
+*   DACALWAA DACAMSGT  are extra fields introduced by Types 3 and 4.
+DACALWAA DS    A                    Different, if TSO, LWA+x'10'
+DACAMSGT DS    A                    IEFAMSGT Allocation Message Table
+DACALOKS DS    3FL8                 IEFAUTOS generic locks array
+*                                   one for each generic list, 3 arrays
+         ORG   DACALOKS
+DACALTCB DS    A                    TCB of XES lock holder
+DACALASI DS    H                    ASID of XES lock holder
+DACAFLGS DS    H                    IEFAUTOS flags
+DACALRBL EQU   X'08'                rebuild is active. This lock
+*                                   is no longer held
+DACALFAI EQU   X'04'                UNLOCK failed for this lock
+*
+         ORG
+DACAB4EC DS    A                    Entry point of IEFAB4EC
+DACAB4FX DS    A                    Entry point of IEFAB4FX
+DACARES3 DS    A
+         MEND
